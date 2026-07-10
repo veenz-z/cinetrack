@@ -4,11 +4,11 @@ const router = express.Router(); // making a new router for every movie related 
 // we get : GET /api/tmdb/search   or    GET /api/tmdb/details/:type/:id
 
 router.get('/search', async (req, res) => {// if the req was : GET /api/tmdb/search :
-    const { query, type = 'movie' } = req.query;  //destructuring => this line is equal to :
+    const { query, type = 'multi' } = req.query;  //destructuring => this line is equal to :
     // const query = req.query.query;
     //const type = req.query.type;
 
-    // we are giving the default type as movie so if the query only contains a name we know the type is movie
+    // default to multi so searches include both movies and TV shows
 
     if (!query) { // if query is empty
         return res.status(400).json({ error: 'Query parameter is required' }); // it's a bad request ( ͡ಠ ʖ̯ ͡ಠ )
@@ -24,13 +24,15 @@ router.get('/search', async (req, res) => {// if the req was : GET /api/tmdb/sea
         // what is fetch ? it sends a http req to tmdb : fetch -> tmdb server -> response
         const data = await response.json(); //tmdb gives us the req as a json
 
-        const results = data.results.map((item) => ({ // the results are mapped through every item in tmdb
+        const results = data.results
+            .filter((item) => type !== 'multi' || item.media_type === 'movie' || item.media_type === 'tv')
+            .map((item) => ({ // the results are mapped through every item in tmdb
             tmdb_id: item.id,
             title: item.title || item.name, // title is for movies, names are for series
             overview: item.overview,
             poster_path: item.poster_path,
-            release_date: item.release_date,
-            media_type: type,
+            release_date: item.release_date || item.first_air_date,
+            media_type: type === 'multi' ? item.media_type : type,
         })); //we get the result we want
 
         res.json(results); // and we convert it to a json and send it to front
