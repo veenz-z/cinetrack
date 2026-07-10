@@ -27,12 +27,30 @@ function NavBar() {
 
             {user ? (
                 <>
-                    <Link to="/watchlist" style={{ color: 'var(--color-text-muted)' }}>
+                    <Link
+                        to="/watchlist"
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            padding: '8px 16px',
+                            background: 'var(--color-surface)',
+                            color: 'var(--color-text)',
+                            border: '1px solid var(--color-border)',
+                            borderRadius: 'var(--radius)',
+                            textDecoration: 'none', // Removes the underline
+                            fontWeight: 500,
+                            fontSize: '14px',
+                            boxShadow: 'var(--shadow-sm)',
+                            transition: 'all 0.2s ease',
+                            cursor: 'pointer'
+                        }}
+                    >
                         My Watchlist
                     </Link>
-                    <span style={{ marginLeft: 'auto', color: 'var(--color-text-muted)', fontSize: '14px' }}>
+
+                    <span style={{ marginLeft: 'auto', color: 'var(--color-text-muted)', fontSize: '14px', alignSelf: 'center' }}>
             Hi, {user.username}
-          </span>
+        </span>
                     <button onClick={handleLogout} style={{ background: 'transparent', border: '1px solid var(--color-border)' }}>
                         Log Out
                     </button>

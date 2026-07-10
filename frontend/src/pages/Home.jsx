@@ -46,7 +46,7 @@ function Home() { // start of the component
     }
 
     return ( // web page
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 24px' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '40px 24px' }}>
             <h1 style={{ fontSize: '32px', marginBottom: '24px' }}>Find your next watch</h1>
 
             <form
@@ -69,19 +69,31 @@ function Home() { // start of the component
                 <p style={{ color: 'var(--color-text-muted)', marginBottom: '20px' }}>{message}</p>
             )}
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+            {}
+            <div
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+                    gap: '20px',
+                    alignItems: 'stretch'
+                }}
+            >
                 {results.map((item) => (
-                    <MediaCard
-                        key={item.tmdb_id}
-                        item={item}
-                        actions={<button onClick={() => handleAdd(item)} style={{ width: '100%' }}>Add to Watchlist</button>}
-                    />
+                    <div key={`${item.media_type}-${item.tmdb_id}`} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                        <MediaCard
+                            item={item}
+                            actions={
+                                <button onClick={() => handleAdd(item)} style={{ width: '100%' }}>
+                                    Add to Watchlist
+                                </button>
+                            }
+                        />
+                    </div>
                 ))}
             </div>
         </div>
     );
 }
-
 
 export default Home; // exporting to se in router
 

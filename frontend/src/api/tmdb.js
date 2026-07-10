@@ -1,6 +1,6 @@
 import request from './client';
 
-export function searchTMDB(query, type = 'movie') {
+export function searchTMDB(query, type = 'multi') {
     return request(`/tmdb/search?query=${encodeURIComponent(query)}&type=${type}`);
 }
 

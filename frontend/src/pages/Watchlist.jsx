@@ -52,17 +52,54 @@ function Watchlist() { //first component (the whole watchlist)
     // if filter === all => shows everything
     // if filter === any status => shows only items with that status
 
-    if (loading) return <p>Loading your watchlist...</p>; // this shows while loading
+    if (loading) {
+        return (
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '50vh',
+                gap: '16px',
+                color: 'var(--color-text-muted)'
+            }}>
+                {}
+                <div style={{
+                    width: '40px',
+                    height: '40px',
+                    border: '3px solid var(--color-border)',
+                    borderTop: '3px solid var(--color-primary)',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                }}/>
+                <p style={{margin: 0, fontWeight: 500, fontSize: '16px'}}>Loading your watchlist...</p>
+            </div>
+        );
+    } // this shows while loading
 
     return ( // website look
-        <div>
+        <div style={
+            {
+                display: 'flex',
+                flexDirection: 'column',
+                paddingLeft: '30px',
+                paddingRight: '30px'
+            }
+        }>
             <h1>My Watchlist</h1>
 
-            <div>
+            <div style={{
+                display: 'flex',
+                gap: '8px',
+                marginBottom: '24px',
+                flexWrap: 'wrap'
+
+            }}>
                 <button onClick={() => setFilter('all')}>All</button>
                 <button onClick={() => setFilter('to_watch')}>To Watch</button>
                 <button onClick={() => setFilter('watching')}>Watching</button>
                 <button onClick={() => setFilter('completed')}>Completed</button>
+
             </div>
 
             {error && <p style={{color: 'red'}}>{error}</p>}
@@ -119,7 +156,14 @@ function Watchlist() { //first component (the whole watchlist)
                 //         />
                 //     ))}
                 // </div>
-                <div style={{display: 'flex', flexWrap: 'wrap', gap: '16px'}}>
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+                    gap: '16px',
+                    alignItems: 'stretch',
+
+
+                }}>
                     <AnimatePresence>
                         {filteredItems.map((item) => (
                             <motion.div
