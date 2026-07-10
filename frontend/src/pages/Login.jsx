@@ -20,7 +20,7 @@ function Login() {
         try {
             const data = await login(email, password); // login req / res in data
             loginUser(data.user, data.token); // token and user saves in local storage
-            navigate('/watchlist'); // we go to watchlist
+            navigate('/', { replace: true }); // go to home after login
         } catch (err) { // if any errors
             setError(err.message);
         } finally { // this gets run anyway

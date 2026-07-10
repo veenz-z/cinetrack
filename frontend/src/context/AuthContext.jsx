@@ -31,7 +31,7 @@ export function AuthProvider({ children }) { // its job is to hold login info
     return ( // provider means make the context public
         // value is usable through whole program
         <AuthContext.Provider value={{ user, loginUser, logoutUser, loading }}>
-            {{children} /*anything on AuthProvider (which in here app gets rendered )*/}
+            {children /*anything on AuthProvider (which in here app gets rendered )*/}
         </AuthContext.Provider>
     );
 }

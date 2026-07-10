@@ -21,7 +21,7 @@ function Register() { // this is a react component
         try {
             const data = await register(username, email, password); // sending req / res saves is data
             loginUser(data.user, data.token); // saves user and token in local storage and updates context => instant login
-            navigate('/watchlist'); // you see watchlist page after login
+            navigate('/', { replace: true }); // go to home after register
         } catch (err) { // if any errs
             setError(err.message);
         } finally { // this always runs
