@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'; // for going to a specific movie info p
 import { searchTMDB } from '../api/tmdb'; // function made before (get)
 import { addToWatchlist } from '../api/watchlist'; // function made before (post)
 import { useAuth } from '../context/AuthContext'; // to check login
+import MediaCard from '../components/MediaCard';
+
 
 function Home() { // start of the component
     const [query, setQuery] = useState(''); // the text inside of search box
@@ -60,20 +62,29 @@ function Home() { // start of the component
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
                 {results.map((item) => (
-                    <div key={item.tmdb_id} style={{ width: '150px' }}>
-                        <Link to={`/title/${item.media_type}/${item.tmdb_id}`}>
-                            {item.poster_path ? (
-                                <img
-                                    src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
-                                    alt={item.title}
-                                    style={{ width: '100%' }}
-                                />
-                            ) : (
-                                <div style={{ height: '200px', background: '#ccc' }}>No image</div>
-                            )}
-                            <p>{item.title}</p>
-                        </Link>
-                        <button onClick={() => handleAdd(item)}>Add to Watchlist</button>
+                    // <div key={item.tmdb_id} style={{ width: '150px' }}>
+                    //     <Link to={`/title/${item.media_type}/${item.tmdb_id}`}>
+                    //         {item.poster_path ? (
+                    //             <img
+                    //                 src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
+                    //                 alt={item.title}
+                    //                 style={{ width: '100%' }}
+                    //             />
+                    //         ) : (
+                    //             <div style={{ height: '200px', background: '#ccc' }}>No image</div>
+                    //         )}
+                    //         <p>{item.title}</p>
+                    //     </Link>
+                    //     <button onClick={() => handleAdd(item)}>Add to Watchlist</button>
+                    // </div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+                        {results.map((item) => (
+                            <MediaCard
+                                key={item.tmdb_id}
+                                item={item}
+                                actions={<button onClick={() => handleAdd(item)}>Add to Watchlist</button>}
+                            />
+                        ))}
                     </div>
                 ))}
             </div>
