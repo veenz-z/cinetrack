@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'; //for keeping this pages info and data
-import { getWatchlist, updateWatchlistItem, removeFromWatchlist } from '../api/watchlist'; //the fetch requests that we made before
-import { Link } from 'react-router-dom';
+import {useState, useEffect} from 'react'; //for keeping this pages info and data
+import {getWatchlist, updateWatchlistItem, removeFromWatchlist} from '../api/watchlist'; //the fetch requests that we made before
+import {Link} from 'react-router-dom';
 import MediaCard from '../components/MediaCard';
+import {motion, AnimatePresence} from 'framer-motion';
 
 
 function Watchlist() { //first component (the whole watchlist)
@@ -28,7 +29,7 @@ function Watchlist() { //first component (the whole watchlist)
 
     async function handleStatusChange(id, status) { // when select gets changed
         try {
-            const updated = await updateWatchlistItem(id, { status }); // sending update req
+            const updated = await updateWatchlistItem(id, {status}); // sending update req
             setItems(items.map((item) => (item.id === id ? updated : item))); // react maps through every item
             // if id==id update the stat / if not stays unchanged
         } catch (err) { // if any errs
@@ -64,7 +65,7 @@ function Watchlist() { //first component (the whole watchlist)
                 <button onClick={() => setFilter('completed')}>Completed</button>
             </div>
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p style={{color: 'red'}}>{error}</p>}
 
             {filteredItems.length === 0 ? (
                 <p>Nothing here yet.</p>
@@ -94,29 +95,64 @@ function Watchlist() { //first component (the whole watchlist)
                 //         </div>
                 //     ))}
                 // </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
-                    {filteredItems.map((item) => (
-                        <MediaCard
-                            key={item.id}
-                            item={item}
-                            actions={
-                                <>
-                                    <select
-                                        value={item.status}
-                                        onChange={(e) => handleStatusChange(item.id, e.target.value)}
-                                        style={{ width: '100%', marginBottom: '6px' }}
-                                    >
-                                        <option value="to_watch">To Watch</option>
-                                        <option value="watching">Watching</option>
-                                        <option value="completed">Completed</option>
-                                    </select>
-                                    <button onClick={() => handleRemove(item.id)} style={{ width: '100%', background: 'var(--color-danger)' }}>
-                                        Remove
-                                    </button>
-                                </>
-                            }
-                        />
-                    ))}
+                // <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+                //     {filteredItems.map((item) => (
+                //         <MediaCard
+                //             key={item.id}
+                //             item={item}
+                //             actions={
+                //                 <>
+                //                     <select
+                //                         value={item.status}
+                //                         onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                //                         style={{ width: '100%', marginBottom: '6px' }}
+                //                     >
+                //                         <option value="to_watch">To Watch</option>
+                //                         <option value="watching">Watching</option>
+                //                         <option value="completed">Completed</option>
+                //                     </select>
+                //                     <button onClick={() => handleRemove(item.id)} style={{ width: '100%', background: 'var(--color-danger)' }}>
+                //                         Remove
+                //                     </button>
+                //                 </>
+                //             }
+                //         />
+                //     ))}
+                // </div>
+                <div style={{display: 'flex', flexWrap: 'wrap', gap: '16px'}}>
+                    <AnimatePresence>
+                        {filteredItems.map((item) => (
+                            <motion.div
+                                key={item.id}
+                                layout
+                                initial={{opacity: 0, scale: 0.9}}
+                                animate={{opacity: 1, scale: 1}}
+                                exit={{opacity: 0, scale: 0.9}}
+                                transition={{duration: 0.2}}
+                            >
+                                <MediaCard
+                                    item={item}
+                                    actions={
+                                        <>
+                                            <select
+                                                value={item.status}
+                                                onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                                                style={{width: '100%', marginBottom: '6px'}}
+                                            >
+                                                <option value="to_watch">To Watch</option>
+                                                <option value="watching">Watching</option>
+                                                <option value="completed">Completed</option>
+                                            </select>
+                                            <button onClick={() => handleRemove(item.id)}
+                                                    style={{width: '100%', background: 'var(--color-danger)'}}>
+                                                Remove
+                                            </button>
+                                        </>
+                                    }
+                                />
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
                 </div>
             )}
         </div>
