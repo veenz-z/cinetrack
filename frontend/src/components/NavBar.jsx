@@ -11,18 +11,40 @@ function NavBar() {
     }
 
     return (
-        <nav style={{ display: 'flex', gap: '16px', padding: '16px', borderBottom: '1px solid #ccc' }}>
-            <Link to="/">Home</Link>
+        <nav
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '20px',
+                padding: '16px 32px',
+                background: 'var(--color-surface)',
+                borderBottom: '1px solid var(--color-border)',
+            }}
+        >
+            <Link to="/" style={{ fontWeight: 700, fontSize: '18px', letterSpacing: '-0.02em' }}>
+                🎬 CineTrack
+            </Link>
+
             {user ? (
                 <>
-                    <Link to="/watchlist">My Watchlist</Link>
-                    <span style={{ marginLeft: 'auto' }}>Hi, {user.username}</span>
-                    <button onClick={handleLogout}>Log Out</button>
+                    <Link to="/watchlist" style={{ color: 'var(--color-text-muted)' }}>
+                        My Watchlist
+                    </Link>
+                    <span style={{ marginLeft: 'auto', color: 'var(--color-text-muted)', fontSize: '14px' }}>
+            Hi, {user.username}
+          </span>
+                    <button onClick={handleLogout} style={{ background: 'transparent', border: '1px solid var(--color-border)' }}>
+                        Log Out
+                    </button>
                 </>
             ) : (
                 <>
-                    <Link to="/login" style={{ marginLeft: 'auto' }}>Log In</Link>
-                    <Link to="/register">Register</Link>
+                    <Link to="/login" style={{ marginLeft: 'auto', color: 'var(--color-text-muted)' }}>
+                        Log In
+                    </Link>
+                    <Link to="/register">
+                        <button>Register</button>
+                    </Link>
                 </>
             )}
         </nav>

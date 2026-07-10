@@ -22,18 +22,34 @@ function ItemDetail() { // the whole component
     //checks if item has video type of trailer to show it or not
     // the "?" makes the program prevent from crashing
 
-    return ( // web look
-        <div>
-            <h1>{item.title || item.name}</h1>
-            <p>{item.overview}</p>
+    return (
+        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '40px 24px' }}>
+            <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', marginBottom: '32px' }}>
+                {item.poster_path && (
+                    <img
+                        src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
+                        alt={item.title || item.name}
+                        style={{ width: '220px', borderRadius: 'var(--radius)', boxShadow: 'var(--shadow)' }}
+                    />
+                )}
+                <div style={{ flex: 1, minWidth: '280px' }}>
+                    <h1 style={{ fontSize: '28px', marginBottom: '12px' }}>{item.title || item.name}</h1>
+                    <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.7 }}>{item.overview}</p>
+                </div>
+            </div>
+
             {trailer && (
-                <iframe
-                    width="560"
-                    height="315"
-                    src={`https://www.youtube.com/embed/${trailer.key}`}
-                    title="Trailer"
-                    allowFullScreen
-                />
+                <div>
+                    <h3 style={{ marginBottom: '12px' }}>Trailer</h3>
+                    <iframe
+                        width="100%"
+                        height="450"
+                        style={{ maxWidth: '800px', borderRadius: 'var(--radius)', border: 'none' }}
+                        src={`https://www.youtube.com/embed/${trailer.key}`}
+                        title="Trailer"
+                        allowFullScreen
+                    />
+                </div>
             )}
         </div>
     );

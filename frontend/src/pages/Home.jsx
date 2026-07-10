@@ -45,52 +45,43 @@ function Home() { // start of the component
         }
     }
 
-    return ( // web page look
-        <div>
-            <h1>CineTrack</h1>
-            <form onSubmit={handleSearch}>
+    return ( // web page
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 24px' }}>
+            <h1 style={{ fontSize: '32px', marginBottom: '24px' }}>Find your next watch</h1>
+
+            <form
+                onSubmit={handleSearch}
+                style={{ display: 'flex', gap: '10px', maxWidth: '480px', marginBottom: '24px' }}
+            >
                 <input
                     type="text"
                     placeholder="Search movies or shows..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
+                    style={{ marginBottom: 0 }}
                 />
-                <button type="submit">{isSearching ? 'Searching...' : 'Search'}</button>
+                <button type="submit" disabled={isSearching}>
+                    {isSearching ? 'Searching...' : 'Search'}
+                </button>
             </form>
 
-            {message && <p>{message}</p>}
+            {message && (
+                <p style={{ color: 'var(--color-text-muted)', marginBottom: '20px' }}>{message}</p>
+            )}
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
                 {results.map((item) => (
-                    // <div key={item.tmdb_id} style={{ width: '150px' }}>
-                    //     <Link to={`/title/${item.media_type}/${item.tmdb_id}`}>
-                    //         {item.poster_path ? (
-                    //             <img
-                    //                 src={`https://image.tmdb.org/t/p/w200${item.poster_path}`}
-                    //                 alt={item.title}
-                    //                 style={{ width: '100%' }}
-                    //             />
-                    //         ) : (
-                    //             <div style={{ height: '200px', background: '#ccc' }}>No image</div>
-                    //         )}
-                    //         <p>{item.title}</p>
-                    //     </Link>
-                    //     <button onClick={() => handleAdd(item)}>Add to Watchlist</button>
-                    // </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
-                        {results.map((item) => (
-                            <MediaCard
-                                key={item.tmdb_id}
-                                item={item}
-                                actions={<button onClick={() => handleAdd(item)}>Add to Watchlist</button>}
-                            />
-                        ))}
-                    </div>
+                    <MediaCard
+                        key={item.tmdb_id}
+                        item={item}
+                        actions={<button onClick={() => handleAdd(item)} style={{ width: '100%' }}>Add to Watchlist</button>}
+                    />
                 ))}
             </div>
         </div>
     );
 }
+
 
 export default Home; // exporting to se in router
 
